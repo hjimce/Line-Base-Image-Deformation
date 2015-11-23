@@ -1,0 +1,31 @@
+﻿生成启动时间为 2015/11/23 15:06:15。
+     1>项目“C:\Users\Administrator\Desktop\face++批量五官裁剪\GDI图像读取+39点人脸检测模板\Bspline.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt BsplineDoc.cpp
+         BsplineDoc.cpp
+         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+     1>c:\program files\opencv\build\include\opencv2\core\mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>c:\program files\opencv\build\include\opencv2\core\persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>c:\program files\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>c:\users\administrator\desktop\face++批量五官裁剪\gdi图像读取+39点人脸检测模板\bsplinedoc.cpp(153): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+     1>c:\users\administrator\desktop\face++批量五官裁剪\gdi图像读取+39点人脸检测模板\bsplinedoc.cpp(154): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+     1>c:\users\administrator\desktop\face++批量五官裁剪\gdi图像读取+39点人脸检测模板\bsplinedoc.cpp(176): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\Bspline.exe" /INCREMENTAL /NOLOGO gdiplus.lib facepp/faceppapi.lib opencv_ts300d.lib opencv_world300d.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:".\Debug\Bspline.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\Bspline.lib" /MACHINE:X86 /SAFESEH .\Debug\Bspline.res
+         .\Debug\Bspline.obj
+         .\Debug\Bspline1.obj
+         .\Debug\BsplineDoc.obj
+         .\Debug\BsplineView.obj
+         .\Debug\directory.obj
+         .\Debug\Function.obj
+         .\Debug\MainFrm.obj
+         .\Debug\morphing.obj
+         .\Debug\PupilGUI.obj
+         .\Debug\StdAfx.obj
+         .\Debug\svm.obj
+         Bspline.vcxproj -> C:\Users\Administrator\Desktop\face++批量五官裁剪\GDI图像读取+39点人脸检测模板\.\Debug\Bspline.exe
+     1>已完成生成项目“C:\Users\Administrator\Desktop\face++批量五官裁剪\GDI图像读取+39点人脸检测模板\Bspline.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:07.62
