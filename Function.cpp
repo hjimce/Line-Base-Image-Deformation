@@ -64,6 +64,7 @@ void Function::Get2D(cv::Mat psrcImgData, int Y,int X, cv::Vec3b &piexl)
 }
 
 
+/*
 void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2f> srcPtList, vector<cv::Vec2f> exPtList)
 {
 
@@ -181,6 +182,124 @@ void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2
 			prightImgData.at<cv::Vec3b>(y,x)=leftimg;
         }
     }
+
+}*/
+void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2f> srcPtList, vector<cv::Vec2f> exPtList)
+{
+
+
+	exPtList=Similarity_transform_2d(exPtList,srcPtList);//œ‡À∆±‰ªª
+
+	for (int i=0;i<exPtList.size();i++)
+	{
+		float x=exPtList[i][0];
+		float y=exPtList[i][1];
+
+
+		float x1=srcPtList[i][0];
+		float y1=srcPtList[i][1];
+
+	}
+
+
+	prightImgData=pleftImgData.clone();
+
+	int aa=prightImgData.channels();
+	aa=0;
+	int nLength =mlength;
+	vector<struct LinePair> pairs;
+
+
+	for (int i=0; i<nLength; i+= 2)
+	{
+		int indexp = g_CtrlIndex[i];
+		int indexq = g_CtrlIndex[i + 1];
+		LinePair curLinePair;
+		curLinePair.leftLine.P.x =(int)srcPtList[indexp][0];
+		curLinePair.leftLine.P.y =(int)srcPtList[indexp][1];
+		curLinePair.leftLine.Q.x =(int)srcPtList[indexq][0];
+		curLinePair.leftLine.Q.y =(int)srcPtList[indexq][1];
+
+
+		Line  curLine=curLinePair.leftLine;
+
+
+		float curLen=sqrt((curLine.Q.x-curLine.P.x)*(curLine.Q.x-curLine.P.x)+(curLine.Q.y-curLine.P.y)*(curLine.Q.y-curLine.P.y));
+		curLinePair.leftLine.len=curLen;
+
+		curLinePair.rightLine.P.x =(int)exPtList[indexp][0];
+		curLinePair.rightLine.P.y =(int)exPtList[indexp][1];
+		curLinePair.rightLine.Q.x =(int)exPtList[indexq][0];
+		curLinePair.rightLine.Q.y =(int)exPtList[indexq][1];
+
+
+		curLine=curLinePair.rightLine;
+		curLen=sqrt((curLine.Q.x-curLine.P.x)*(curLine.Q.x-curLine.P.x)+(curLine.Q.y-curLine.P.y)*(curLine.Q.y-curLine.P.y));
+
+		curLinePair.rightLine.len=curLen;
+
+
+		pairs.push_back(curLinePair);
+
+	}
+
+
+
+
+	int nWidth=prightImgData.cols;
+	int nHeight=prightImgData.rows;
+	for(int x = 0 ; x < nWidth ; x++)
+	{
+		for(int y = 0 ; y < nHeight ; y++)
+		{
+			Vector2 dst_point ;
+			dst_point.x= x ; 
+			dst_point.y= y;
+			double leftXSum_x = 0.0;
+			double leftXSum_y = 0.0;
+			double leftWeightSum = 0.0;
+			double rightXSum_x = 0.0;
+			double rightXSum_y = 0.0;
+			double rightWeightSum = 0.0;
+			for(int i = 0 ; i < pairs.size() ; i++)
+			{
+
+				Line src_line = pairs[i].leftLine;	
+				Line dst_line = pairs[i].rightLine;
+
+				double new_u = dst_line.Getu(dst_point);
+				double new_v = dst_line.Getv(dst_point);
+
+				Vector2 src_point = src_line.Get_Point(new_u , new_v);
+				double src_weight = dst_line.Get_Weight(dst_point);
+
+				leftXSum_x = leftXSum_x + (double)src_point.x * src_weight ;
+				leftXSum_y = leftXSum_y + (double)src_point.y * src_weight ;
+				leftWeightSum = leftWeightSum + src_weight ;
+			}
+			double left_src_x = leftXSum_x / leftWeightSum;
+			double left_src_y = leftXSum_y / leftWeightSum;
+			double right_src_x = x;
+			double right_src_y = y;
+
+
+			if(left_src_x<0)
+				left_src_x=0;
+			if(left_src_y<0)
+				left_src_y=0;
+			if(left_src_x>=pleftImgData.cols)
+				left_src_x=pleftImgData.cols-1;
+			if(left_src_y>=pleftImgData.rows)
+				left_src_y=pleftImgData.rows-1;
+
+
+			cv::Vec3b leftimg;
+			bilinear(pleftImgData,left_src_x,left_src_y,leftimg);
+
+
+			prightImgData.at<cv::Vec3b>(y,x)=leftimg;
+		}
+	}
 
 }
 

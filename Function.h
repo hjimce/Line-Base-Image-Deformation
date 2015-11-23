@@ -19,6 +19,7 @@ private:
 	void bilinear(cv::Mat psrcImgData, float X,float Y,cv::Vec3b &piexl);
 	vector<cv::Vec2f> Similarity_transform_2d(vector<cv::Vec2f> src,vector<cv::Vec2f>ref);
 	
+	
 
 };
 
