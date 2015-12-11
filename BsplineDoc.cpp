@@ -97,7 +97,7 @@ BOOL CBsplineDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	cv::Mat ori;
 	GetImage(image1,m_pOrignImageS,ori,m_face_ori);
 
-	string image2="4.jpg";
+	string image2="2.jpg";
 	Gdiplus::Bitmap *secondimage;
 	cv::Mat def;
 	GetImage(image2,secondimage,def,m_face_def);
@@ -105,9 +105,9 @@ BOOL CBsplineDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 
 	Function warp;
-	warp.Warp(ori,ori,m_face_ori,m_face_def);
+	cv::Mat composition=warp.Warp(ori,def,m_face_ori,m_face_def);
 
-	cv::imshow("def",ori);
+	cv::imshow("def",composition);
 
 
 
@@ -120,7 +120,7 @@ void CBsplineDoc::GetImage(string image_path,Gdiplus::Bitmap * &pInImage1,cv::Ma
 	wchar_t * wc = new wchar_t[];
 	swprintf(wc,100,L"%S",img.c_str());
 	pInImage1 = Gdiplus::Bitmap::FromFile(wc);
-	
+	cvimg =cv::imread(image_path);  //原始读入	
 
 	// TODO:  在此添加您专用的创建代码
 	if (pInImage1->GetWidth()>480||pInImage1->GetHeight()>640)
@@ -140,9 +140,8 @@ void CBsplineDoc::GetImage(string image_path,Gdiplus::Bitmap * &pInImage1,cv::Ma
 		int width=pInImage1->GetWidth()*scalew;
 		int height=pInImage1->GetHeight()*scalew;
 		ResizeBitmap(&pInImage1,width,height);
-
-
-
+		
+		cv::resize(cvimg,cvimg,cv::Size(width,height));
 
 
 	}
@@ -166,7 +165,9 @@ void CBsplineDoc::GetImage(string image_path,Gdiplus::Bitmap * &pInImage1,cv::Ma
 	pInImage1->UnlockBits(&m_TempBitmapData);
 
 
-	cvimg =cv::imread(image_path);  //原始读入	
+	
+
+
 
 
 /*

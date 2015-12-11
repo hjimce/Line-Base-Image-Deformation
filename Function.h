@@ -11,7 +11,7 @@ class Function
 public:
 	Function(void);
 	~Function(void);
-	void Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2f> srcPtList, vector<cv::Vec2f> exPtList);
+	cv::Mat Warp(cv::Mat pleftImgData, cv::Mat prightImgData,vector<cv::Vec2f> srcPtList, vector<cv::Vec2f> exPtList);
 private:
 	vector<cv::Vec2f> GetFaceTransformation(vector<cv::Vec2f>face1_landmark,vector<cv::Vec2f>face2_landmark);
 	Eigen::Matrix2d Transform_Line_Segment(cv::Vec2f Line1P,cv::Vec2f Line1Q,cv::Vec2f Line2P,cv::Vec2f Line2Q);

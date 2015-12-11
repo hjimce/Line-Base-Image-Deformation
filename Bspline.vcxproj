@@ -73,6 +73,8 @@
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>

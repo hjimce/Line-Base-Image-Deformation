@@ -1,8 +1,8 @@
 //#include "StdAfx.h"
 #include "Function.h"
 
-int mlength=20;
-int g_CtrlIndex[20] = {
+int mlength=20+21*2;
+int g_CtrlIndex[20+21*2] = {
 //¡≥–Õ10
 1,2,
 2,3,
@@ -13,7 +13,28 @@ int g_CtrlIndex[20] = {
 10,9,
 9,8,
 8,7,
-7,6
+7,6,
+20,25,
+25,23,
+23,21,
+21,20,
+27,26,
+26,28,
+29,26,
+16,17,
+17,18,
+18,19,
+12,15,
+15,14,
+14,11,
+11,12,
+31,34,
+34,33,
+33,30,
+30,31,
+35,36,
+36,37,
+37,38
 };
 
 Function::Function(void)
@@ -184,10 +205,11 @@ void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2
     }
 
 }*/
-void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2f> srcPtList, vector<cv::Vec2f> exPtList)
+cv::Mat Function::Warp(cv::Mat pleftImgData, cv::Mat prightImgData,vector<cv::Vec2f> srcPtList, vector<cv::Vec2f> exPtList)
 {
 
-
+	cv::Mat result_ImgData=prightImgData.clone();
+/*
 	exPtList=Similarity_transform_2d(exPtList,srcPtList);//œ‡À∆±‰ªª
 
 	for (int i=0;i<exPtList.size();i++)
@@ -199,18 +221,12 @@ void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2
 		float x1=srcPtList[i][0];
 		float y1=srcPtList[i][1];
 
-	}
+	}*/
 
 
-	prightImgData=pleftImgData.clone();
-
-	int aa=prightImgData.channels();
-	aa=0;
-	int nLength =mlength;
+	
 	vector<struct LinePair> pairs;
-
-
-	for (int i=0; i<nLength; i+= 2)
+	for (int i=0; i<mlength; i+= 2)
 	{
 		int indexp = g_CtrlIndex[i];
 		int indexq = g_CtrlIndex[i + 1];
@@ -235,10 +251,7 @@ void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2
 
 		curLine=curLinePair.rightLine;
 		curLen=sqrt((curLine.Q.x-curLine.P.x)*(curLine.Q.x-curLine.P.x)+(curLine.Q.y-curLine.P.y)*(curLine.Q.y-curLine.P.y));
-
 		curLinePair.rightLine.len=curLen;
-
-
 		pairs.push_back(curLinePair);
 
 	}
@@ -246,8 +259,9 @@ void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2
 
 
 
-	int nWidth=prightImgData.cols;
-	int nHeight=prightImgData.rows;
+	int nWidth=result_ImgData.cols;
+	int nHeight=result_ImgData.rows;
+	#pragma omp parallel for
 	for(int x = 0 ; x < nWidth ; x++)
 	{
 		for(int y = 0 ; y < nHeight ; y++)
@@ -296,10 +310,12 @@ void Function::Warp(cv::Mat pleftImgData, cv::Mat &prightImgData,vector<cv::Vec2
 			cv::Vec3b leftimg;
 			bilinear(pleftImgData,left_src_x,left_src_y,leftimg);
 
-
-			prightImgData.at<cv::Vec3b>(y,x)=leftimg;
+			float alpha=0.5;
+			result_ImgData.at<cv::Vec3b>(y,x)=alpha*leftimg+(1-alpha)*prightImgData.at<cv::Vec3b>(y,x);
 		}
 	}
+
+	return result_ImgData;
 
 }
 
